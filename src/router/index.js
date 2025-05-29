@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import EstudianteView from'../views/EstudianteView.vue'
+import EstudianteTablaView from '@/views/EstudianteTablaView.vue'
+import PreguntaView from '@/views/PreguntaView.vue'
 
 const routes = [
   {
@@ -7,14 +10,44 @@ const routes = [
     name: 'home',
     component: HomeView
   },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    {
+    path: '/estudiante/:cedula',
+    name: 'estudianteView',
+    component: EstudianteView
+  },
+      {
+    path: '/estudianteTabla',
+    name: 'estudianteTablaView',
+    component: EstudianteTablaView
+  },
+        {
+    path: '/pregunta',
+    name: 'preguntaView',
+    component: PreguntaView
+  },
+
+    {
+    path: '/contador/numeros',
+    name: 'contadorView',
+    component: () => import(/* webpackChunkName: "contadorView" */ '../views/ContadorView.vue')
+  },
+      {
+    path: '/biblioteca',
+    name: 'bibliotecaView',
+    component: () => import(/* webpackChunkName: "bibliotecaView" */ '../views/BibliotecaView.vue')
+  },
+        {
+    path: '/holaMundo',
+    name: 'holaMundoViews',
+    component: () => import(/* webpackChunkName: "holaMundoViews" */ '../views/HolaMundoViews.vue')
+  },
+          {
+    path: '/nasa',
+    name: 'nasaView',
+    component: () => import(/* webpackChunkName: "nasaView" */ '../views/NasaView.vue')
+  },
+  
+  
 ]
 
 const router = createRouter({
