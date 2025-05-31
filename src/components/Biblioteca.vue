@@ -6,10 +6,10 @@
     <div class="textos">
       <label for="id_titulo">TÍtulo</label>
       <input v-model="nuevoTitulo" id="id_titulo" type="text" />
-
+      <span v-if="mensaje.nombre">{{ mensaje.nombre }}</span>
       <label for="id_autor">Autor</label>
       <input v-model="nuevoAutor" id="id_autor" type="text" />
-
+      <span v-if="mensaje.apellido"> {{ mensaje.apellido }}</span>
       <label for="id_genero">Género</label>
       <input v-model="nuevoGenero" id="id_genero" type="text" />
 
@@ -70,47 +70,74 @@ export default {
       nuevoAno: null,
       nuevaEditorial: "",
       lista: [
-
         { titulo: "Cien años de soledad", autor: "Gabriel García Márquez", genero: "Ficción", ano: 1967, editorial: "Editorial Sudamericana" },
         { titulo: "El Principito", autor: "Antoine de Saint-Exupéry", genero: "Ficción", ano: 1943, editorial: "Reynal & Hitchcock" },
         { titulo: "Don Quijote de la Mancha", autor: "Miguel de Cervantes", genero: "Ficción", ano: 1605, editorial: "Francisco de Robles" },
       ],
       mensaje: false,
+      mensajeTexto: {
+        nombre: null,
+        apellido: null,
+      }
     };
   },
   methods: {
     agregarLibro() {
-      const nuevo = {
-        titulo: this.nuevoTitulo,
-        autor: this.nuevoAutor,
-        genero: this.nuevoGenero,
-        ano: this.nuevoAno,
-        editorial: this.nuevaEditorial,
-      };
-
-      this.lista.push(
-        {
+      if (this.validarEntradas()) {
+        const nuevo = {
           titulo: this.nuevoTitulo,
           autor: this.nuevoAutor,
           genero: this.nuevoGenero,
           ano: this.nuevoAno,
           editorial: this.nuevaEditorial,
-        }
-      );
+        };
 
-      this.mensaje = true;
+        this.lista.push(nuevo);
 
-      setTimeout(() => {
-        this.mensaje = false;
-      }, 3000);
+        this.mensaje = true;
+
+        setTimeout(() => {
+          this.mensaje = false;
+        }, 3000);
+
+        this.limpiarPagina();
+      }
     },
-  },
 
-}
+    validarEntradas() {
+      this.mensajeTexto.nombre = null;
+      this.mensajeTexto.apellido = null;
+
+      let numero = 2;
+
+      if (!this.nuevoTitulo || this.nuevoTitulo.trim() === "") {
+        this.mensajeTexto.nombre = "Título es obligatorio";
+        numero--;
+      }
+
+      if (!this.nuevoAutor || this.nuevoAutor.trim() === "") {
+        this.mensajeTexto.apellido = "Autor es obligatorio";
+        numero--;
+      }
+
+      return numero === 2;
+    },
+
+    limpiarPagina() {
+      this.nuevoTitulo = "";
+      this.nuevoAutor = "";
+      this.nuevoGenero = "";
+      this.nuevoAno = null;
+      this.nuevaEditorial = "";
+      this.mensajeTexto.nombre = null;
+      this.mensajeTexto.apellido = null;
+    }
+  }
+};
 </script>
 
-<style scoped>
 
+<style scoped>
 .container {
   background: #637b9b;
   border: 1px solid #456960;
@@ -121,7 +148,7 @@ export default {
 }
 
 h1 {
-  color: #ffffff;
+  color: #2c1f1f;
   text-align: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 40px;
