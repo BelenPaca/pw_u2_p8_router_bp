@@ -31,11 +31,7 @@ const routes = [
     name: 'contadorView',
     component: () => import(/* webpackChunkName: "contadorView" */ '../views/ContadorView.vue')
   },
-      {
-    path: '/biblioteca',
-    name: 'bibliotecaView',
-    component: () => import(/* webpackChunkName: "bibliotecaView" */ '../views/BibliotecaView.vue')
-  },
+
         {
     path: '/holaMundo',
     name: 'holaMundoViews',

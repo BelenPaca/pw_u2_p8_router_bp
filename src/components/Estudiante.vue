@@ -1,16 +1,14 @@
 <template>
   <div class="container">
     <div v-show="mostrar">
-      <h1>{{ mensajeFinal }}</h1>
+      <h1>Estudiante Guardado</h1>
     </div>
     <div class="textos">
       <label for="id_nombre">Nombre</label>
       <input v-model="nuevoNombre" id="id_nombre" type="text" />
-      <span v-if="mensaje.nombre">{{ mensaje.nombre }}</span>
  
       <label for="id_apellido">Apellido</label>
       <input v-model="nuevoApellido" id="id_apellido" type="text" />
-      <span v-if="mensaje.apellido">{{ mensaje.apellido }}</span>
  
       <label for="id_genero">Género</label>
       <input v-model="nuevoGenero" id="id_genero" type="text" />
@@ -25,35 +23,16 @@
     <br />
     <button v-on:click="agregarEstudiante"><b>Agregar</b></button>
  
-    <table border="1">
-      <thead>
-        <!--tr siempre es primero y representa una fila, primero se contruye tanto en la cabecera como el cuerpo-->
-        <tr>
-          <!--Como contenido de la fila declaro todas las columnas-->
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>Genero</th>
-          <th>edad</th>
-          <th>Correo</th>
-          <th>Accion</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="{ nombre, apellido, genero, edad, correo } in lista"
-          :key="nombre + apellido"
-        >
-          <!--Para la columna ya no declaro un th si no que un elemento td-->
-          <td>{{ nombre }}</td>
-          <td>{{ apellido }}</td>
-          <td>{{ genero }}</td>
-          <td>{{ edad }}</td>
-          <td>{{ correo }}</td>
-          <td><button>Ver</button></td>
-        </tr>
-        <!--Por cada fila es un elemento html tr-->
-      </tbody>
-    </table>
+    <button v-on:click="obtenerPathVariable">Llamar metodo</button>
+    <ul>
+      <li
+        v-for="{ nombre, apellido, genero, edad, correo } in lista"
+        :key="nombre + apellido"
+      >
+        Nombre: {{ nombre }} - Apellido: {{ apellido }} - Género: {{ genero }} -
+        Edad: {{ edad }} - Correo: {{ correo }}
+      </li>
+    </ul>
   </div>
 </template>
  
@@ -61,11 +40,11 @@
 export default {
   data() {
     return {
-      nuevoNombre: null,
-      nuevoApellido: null,
-      nuevoGenero: null,
-      nuevaEdad: null,
-      nuevoCorreo: null,
+      nuevoNombre: "",
+      nuevoApellido: "",
+      nuevoGenero: "",
+      nuevaEdad: 20,
+      nuevoCorreo: "",
       lista: [
         {
           nombre: "Andres",
@@ -117,71 +96,67 @@ export default {
           correo: "anahis@gmail.com",
         },
       ],
-      mostrar: false,
-      nombreMensaje: false,
-      apellidoMensaje: false,
-      mensaje: {
-        nombre: null,
-        apellido: null,
-      },
-      mensajeFinal:null,
+      mostrar: true,
     };
   },
   methods: {
     agregarEstudiante() {
-      if (this.validarEntradas() == true) {
-        const nuevo = {
-          nombre: this.nuevoNombre,
-          apellido: this.nuevoApellido,
-          genero: this.nuevoGenero,
-          edad: this.nuevaEdad,
-          correo: this.nuevoCorreo,
-        };
-        // this.lista.unshift(nuevo);
-        this.lista.push(nuevo);
-        this.mostrar = true;
-        this.nombre = null;
- 
-        setTimeout(() => {
-          this.mostrar = false;
-        }, 3000);
-        this.mensajeFinal="Estudiante Guardado"
-        this.limpiarPagina();
-      }
-    },
-    validarEntradas() {
-      try {
- 
-     
-      let validar= this.mensaje.apellido.primero;
-      let numero = 2;
-      if (this.nuevoNombre === null) {
-        this.mensaje.nombre = "Nombre es Obligatorio";
-        numero--;
+      const nuevo = {
+        nombre: this.nuevoNombre,
+        apellido: this.nuevoApellido,
+        genero: this.nuevoGenero,
+        edad: this.nuevaEdad,
+        correo: this.nuevoCorreo,
       };
-      if (this.nuevoApellido === null) {
-        this.mensaje.apellido = "Apellido es Obligatorio";
-        numero--;
-      };
-      if (numero === 2){
-        return true;
-      }else {
-        return false;
-      }
-      }catch(error){
-        console.error("Ha ocurriido un problema");
-        console.error(error);
-        this.mostrar = true;
-        this.mensajeFinal= "Ha ocurrido un error del sistema";
-      }
-   
  
-    },
-    limpiarPagina(){
+      // this.lista.unshift(nuevo);
+      this.lista.push(nuevo);
+      this.mostrar = true;
       this.nombre = null;
-      this.mensaje.nombre = null;
-      this.mensaje.apellido = null;
+ 
+      setTimeout(() => {
+        this.mostrar = false;
+      }, 3000);
     },
+    obtenerPathVariable() {
+      const CEDULA = this.$route.params.cedula;
+      console.log(CEDULA);
+ 
+      const anio = this.$route.query.anio;
+      const mes = this.$route.query.mes;
+      console.log(anio);
+      console.log(mes);
+    },
+    // las etapas de ciclo de vida son fundamentales para gestionar la carga de datos, limpieza de eventos y cada una de las etapas del ciclo de vida de un componente se lo declara como una opcion mas de option api
+  },
+  beforeCreate() {
+    console.log("beforeCreate");
+  },
+  created() {
+    console.log("created");
+  },
+  beforeMount() {
+    console.log("before mount");
+  },
+  mounted() {
+    console.log("mounted");
+    const CEDULA = this.$route.params.cedula;
+    console.log(CEDULA);
+ 
+    const anio = this.$route.query.anio;
+    const mes = this.$route.query.mes;
+    console.log(anio);
+    console.log(mes);
+  },
+  beforeUpdate() {},
+  updated() {
+    console.log("updated");
+  },
+  beforeUnmount() {
+    console.log("beforeUnmount");
+  },
+  unmounted() {
+    console.log("unmounted");
   },
 };
 </script>
