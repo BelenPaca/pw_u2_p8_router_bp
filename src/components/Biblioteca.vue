@@ -4,32 +4,37 @@
       <h1>La Casa de los Libros</h1>
     </div>
     <div class="textos">
-      <label for="id_titulo">TÍtulo</label>
+      <label for="id_titulo">Título</label>
       <input v-model="nuevoTitulo" id="id_titulo" type="text" />
-      <span v-if="mensaje.nombre">{{ mensaje.nombre }}</span>
+      <span v-if="mensaje.titulo">{{ mensaje.titulo }}</span>
+
       <label for="id_autor">Autor</label>
       <input v-model="nuevoAutor" id="id_autor" type="text" />
-      <span v-if="mensaje.apellido"> {{ mensaje.apellido }}</span>
+      <span v-if="mensaje.autor"> {{ mensaje.autor }}</span>
+      
       <label for="id_genero">Género</label>
       <input v-model="nuevoGenero" id="id_genero" type="text" />
+      <span v-if="mensaje.genero"> {{ mensaje.genero }}</span>
 
       <label for="id_ano">Año</label>
       <input v-model="nuevoAno" id="id_ano" type="number" />
+      <span v-if="mensaje.ano"> {{ mensaje.ano }}</span>
 
       <label for="id_editorial">Editorial</label>
       <input v-model="nuevaEditorial" id="id_editorial" type="text" />
+      <span v-if="mensaje.editorial"> {{ mensaje.editorial }}</span>
     </div>
 
     <br />
     <button v-on:click="agregarLibro"><b>Guardar</b></button>
 
-    <div v-show="mensaje" class="mensaje">
-      <h3>Libro Guardado Exitosamente</h3>
+    <div v-show="mostrar" class="mostrar">
+      <h3>{{ mensajeTexto }}</h3>
     </div>
 
     <ul>
       <li v-for="{ titulo, autor, genero, ano, editorial } in lista" :key="titulo + autor">
-        TÍtulo: {{ titulo }} - Autor: {{ autor }} - Género: {{ genero }} -
+        Título: {{ titulo }} - Autor: {{ autor }} - Género: {{ genero }} -
         Año: {{ ano }} - Editorial: {{ editorial }}
       </li>
     </ul>
@@ -54,7 +59,6 @@
           <td>{{ editorial }}</td>
           <td><button>Ver</button></td>
         </tr>
-
       </tbody>
     </table>
   </div>
@@ -64,21 +68,27 @@
 export default {
   data() {
     return {
-      nuevoTitulo: "",
-      nuevoAutor: "",
-      nuevoGenero: "",
+      nuevoTitulo: '',
+      nuevoAutor: '',
+      nuevoGenero: '',
       nuevoAno: null,
-      nuevaEditorial: "",
+      nuevaEditorial: '',
+      
       lista: [
         { titulo: "Cien años de soledad", autor: "Gabriel García Márquez", genero: "Ficción", ano: 1967, editorial: "Editorial Sudamericana" },
         { titulo: "El Principito", autor: "Antoine de Saint-Exupéry", genero: "Ficción", ano: 1943, editorial: "Reynal & Hitchcock" },
         { titulo: "Don Quijote de la Mancha", autor: "Miguel de Cervantes", genero: "Ficción", ano: 1605, editorial: "Francisco de Robles" },
       ],
-      mensaje: false,
-      mensajeTexto: {
-        nombre: null,
-        apellido: null,
-      }
+      
+      mostrar: false, 
+      mensaje: {            
+        titulo: '',         
+        autor: '',          
+        genero: '',         
+        ano: '',            
+        editorial: '',      
+      },
+      mensajeTexto: '' 
     };
   },
   methods: {
@@ -87,51 +97,82 @@ export default {
         const nuevo = {
           titulo: this.nuevoTitulo,
           autor: this.nuevoAutor,
-          genero: this.nuevoGenero,
+          genero: this.nuevoGenero, 
           ano: this.nuevoAno,
           editorial: this.nuevaEditorial,
         };
 
-        this.lista.push(nuevo);
-
-        this.mensaje = true;
+        this.lista.push(nuevo); 
+        
+        this.mostrar = true;
+        this.mensajeTexto = "Libro Guardado Exitosamente"; 
 
         setTimeout(() => {
-          this.mensaje = false;
+          this.mostrar = false;
+          this.mensajeTexto = '';
         }, 3000);
 
         this.limpiarPagina();
+      } else {
+        this.mostrar = true;
+        this.mensajeTexto = "Por favor, corrige los errores del formulario.";
+        setTimeout(() => {
+            this.mostrar = false;
+            this.mensajeTexto = '';
+        }, 3500);
       }
-    },
-
-    validarEntradas() {
-      this.mensajeTexto.nombre = null;
-      this.mensajeTexto.apellido = null;
-
-      let numero = 2;
-
-      if (!this.nuevoTitulo || this.nuevoTitulo.trim() === "") {
-        this.mensajeTexto.nombre = "Título es obligatorio";
-        numero--;
-      }
-
-      if (!this.nuevoAutor || this.nuevoAutor.trim() === "") {
-        this.mensajeTexto.apellido = "Autor es obligatorio";
-        numero--;
-      }
-
-      return numero === 2;
     },
 
     limpiarPagina() {
-      this.nuevoTitulo = "";
-      this.nuevoAutor = "";
-      this.nuevoGenero = "";
+      this.nuevoTitulo = '';
+      this.nuevoAutor = '';
+      this.nuevoGenero = '';
       this.nuevoAno = null;
-      this.nuevaEditorial = "";
-      this.mensajeTexto.nombre = null;
-      this.mensajeTexto.apellido = null;
-    }
+      this.nuevaEditorial = '';
+
+      this.mensaje.titulo = '';
+      this.mensaje.autor = '';
+      this.mensaje.genero = '';
+      this.mensaje.ano = '';
+      this.mensaje.editorial = '';
+    },
+
+    validarEntradas() {
+      this.mensaje.titulo = '';
+      this.mensaje.autor = '';
+      this.mensaje.genero = '';
+      this.mensaje.ano = '';
+      this.mensaje.editorial = '';
+
+      let esValido = true;
+
+      if (!this.nuevoTitulo || this.nuevoTitulo.trim() === "") {
+        this.mensaje.titulo = "El título es obligatorio.";
+        esValido = false;
+      }
+
+      if (!this.nuevoAutor || this.nuevoAutor.trim() === "") {
+        this.mensaje.autor = "El autor es obligatorio.";
+        esValido = false;
+      }
+
+      if (!this.nuevoGenero || this.nuevoGenero.trim() === "") {
+        this.mensaje.genero = "El género es obligatorio.";
+        esValido = false;
+      }
+
+      if (!this.nuevoAno || isNaN(this.nuevoAno) || this.nuevoAno <= 0) {
+        this.mensaje.ano = "El año es obligatorio y debe ser un número válido mayor que 0.";
+        esValido = false;
+      }
+
+      if (!this.nuevaEditorial || this.nuevaEditorial.trim() === "") {
+        this.mensaje.editorial = "La editorial es obligatoria.";
+        esValido = false;
+      }
+
+      return esValido;
+    },
   }
 };
 </script>

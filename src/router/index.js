@@ -38,6 +38,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "holaMundoViews" */ '../views/HolaMundoViews.vue')
   },
           {
+    path: '/biblioteca',
+    name: 'bibliotecaView',
+    component: () => import(/* webpackChunkName: "bibliotecaView" */ '../views/BibliotecaView.vue')
+  },
+          {
     path: '/nasa',
     name: 'nasaView',
     component: () => import(/* webpackChunkName: "nasaView" */ '../views/NasaView.vue')

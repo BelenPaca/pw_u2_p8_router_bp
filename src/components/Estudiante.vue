@@ -141,14 +141,16 @@ export default {
   mounted() {
     console.log("mounted");
     const CEDULA = this.$route.params.cedula;
-    console.log(CEDULA);
+    console.log("Cedula",CEDULA);
  
     const anio = this.$route.query.anio;
     const mes = this.$route.query.mes;
-    console.log(anio);
-    console.log(mes);
+    console.log("Año",anio);
+    console.log("Mes",mes);
   },
-  beforeUpdate() {},
+  beforeUpdate() {
+    console.log("beforeUpdate");
+  },
   updated() {
     console.log("updated");
   },
