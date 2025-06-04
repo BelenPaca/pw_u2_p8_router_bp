@@ -8,6 +8,7 @@
     <router-link to="/biblioteca">Biblioteca</router-link> |
     <router-link to="/holaMundo">Hola Mundo</router-link> |
     <router-link to="/nasa">Nasa</router-link> |
+    <router-link to="/pockemon">Pockemon</router-link> |
    </nav>
  </div>
 </template>

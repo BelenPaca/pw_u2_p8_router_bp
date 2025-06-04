@@ -47,6 +47,11 @@ const routes = [
     name: 'nasaView',
     component: () => import(/* webpackChunkName: "nasaView" */ '../views/NasaView.vue')
   },
+            {
+    path: '/pockemon',
+    name: 'pockemonView',
+    component: () => import(/* webpackChunkName: "pockemonView" */ '../views/PockemonView.vue')
+  },
   
   
 ]
