@@ -1,15 +1,16 @@
 <template>
- <div class="image-container">
-    <img v-if="!mostrar" class="ocultar"
-        :src="imagenFuente"
+    <div class="image-container">
+        <img v-if="!mostrar" 
+        class="ocultar" 
+        :src="imagenFuente" 
         alt="No se puede renderizar pokemon">
 
-    <img v-if="mostrar"
-        :src="imagenFuente"
+        <img v-if="mostrar" 
+        :src="imagenFuente" 
         alt="No se puede renderizar pokemon">
-       
- </div>
-  
+
+    </div>
+
 </template>
 
 <script>
@@ -20,7 +21,7 @@ export default {
             type: Number,
             required: true,
         },
-        mostarImagen:{
+        mostarImagen: {
             type: Boolean,
             required: true,
             default: false,
@@ -29,15 +30,15 @@ export default {
     data() {
         return {
             mostrar: this.mostarImagen,
-            
+
         };
     },
     computed: {
-        imagenFuente(){
+        imagenFuente() {
             return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${this.pokemonId}.svg`;
 
         }
-       
+
     },
 }
 
@@ -50,13 +51,14 @@ img {
     position: absolute;
     right: 42%;
 
-}   
+}
+
 .ocultar {
     filter: brightness(0);
-    
+
 }
+
 .image-container {
     height: 200px;
 }
-
 </style>
