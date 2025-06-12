@@ -1,13 +1,15 @@
 <template>
+     {{ mensaje1 }}
     <div class="image-container">
-        <img v-if="!mostrar" 
+        <img v-if="!mostarImagen" 
         class="ocultar" 
         :src="imagenFuente" 
         alt="No se puede renderizar pokemon">
 
-        <img v-if="mostrar" 
+        <img v-if="mostarImagen" 
         :src="imagenFuente" 
         alt="No se puede renderizar pokemon">
+       
 
     </div>
 
@@ -29,7 +31,7 @@ export default {
     },
     data() {
         return {
-            mostrar: this.mostarImagen,
+            mensaje1:"mensaje1"
 
         };
     },
