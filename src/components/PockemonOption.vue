@@ -39,7 +39,7 @@ export default {
                 atributo3: true,
 
             };
-            this.$emit('seleccionado', id);
+            this.$emit('seleccionado', objetoEnviado);
 
         },
     },
