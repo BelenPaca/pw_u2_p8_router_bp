@@ -52,6 +52,12 @@ const routes = [
     name: 'pockemonView',
     component: () => import(/* webpackChunkName: "pockemonView" */ '../views/PockemonView.vue')
   },
+              {
+    path: '/component',
+    name: 'responsivoView',
+    component: () => import(/* webpackChunkName: "ResponsivoView" */ '../views/ResposivoView.vue')
+  },
+  
   
   
 ]
